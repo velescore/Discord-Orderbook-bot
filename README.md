@@ -14,7 +14,7 @@ Needs python3
 
 Some supervisor or cron helper could be needed to restart the bot should it crash.
 
-## History
+## History
 
 01/02/2019 - Bismuth version Public release
 
