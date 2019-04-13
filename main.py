@@ -30,9 +30,13 @@ def on_ready():
 @client.event
 @asyncio.coroutine
 def on_message(message):
-    sender = str(message.author)
     # print(message.content + " - " + message.author.name)
     if message.content.startswith(STATICS.PREFIX):
+        if message.server and message.channel.id in STATICS.AUTH_CHANNELS:
+            print('bad channel',message.channel.name)
+            return
+        
+        sender = str(message.author)
         invoke = message.content[len(STATICS.PREFIX):].split(" ")[0]
         invoke = invoke.lower()
         args = message.content.split(" ")[1:]

@@ -7,10 +7,10 @@ import STATICS
 
 def ex(args, message, client, invoke, sender):
     if len(args) is 2:
-        amtnyzo = args[0]
+        amtcurrency = args[0]
         amtsats = args[1]
         try:
-            amtnyzo = float(amtnyzo)
+            amtcurrency = float(amtcurrency)
             amtsats = float(amtsats)
         except:
             # yield from client.send_message(message.channel, embed=Embed(color=Color.red(), description=(STATICS.HELPER)))
@@ -24,14 +24,14 @@ def ex(args, message, client, invoke, sender):
                     count = count + 1
 
         if count < STATICS.MAXORDERS:
-            if type(amtnyzo) is float and type(amtsats) is float:
-                if amtnyzo > 0 and amtsats > 0:
-                    cal = round((amtnyzo * amtsats) / 100000000, 8)
+            if type(amtcurrency) is float and type(amtsats) is float:
+                if amtcurrency > 0 and amtsats > 0:
+                    cal = round((amtcurrency * amtsats) / 100000000, 8)
                     cal = format(cal, '.8f')
-                    sendstr = """-\n:loudspeaker: New order added: \n**Buy** {0} Nyzo for {1} sats each = {2} BTC\n\n:fire: **ORDERBOOK** :fire:\n\n|WTB|""".format(
-                        amtnyzo, amtsats, cal)
+                    sendstr = """-\n:loudspeaker: New order added: \n**Buy** {0} {3} for {1} sats each = {2} BTC\n\n:fire: **ORDERBOOK** :fire:\n\n|WTB|""".format(
+                        amtcurrency, amtsats, cal, STATICS.CURRENCY)
 
-                    neworder = ['Buy', sender, amtnyzo, amtsats, cal]
+                    neworder = ['Buy', sender, amtcurrency, amtsats, cal]
                     with open("orderlist.txt", "a") as f:
                         f.write("{}".format(neworder))
                         f.write("\n")
