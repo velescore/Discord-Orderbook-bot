@@ -3,7 +3,7 @@ import discord
 from discord import Embed, Color
 import STATICS
 
-def ex(args, message, client, invoke, sender):
+def ex(args, message, client, invoke, sender, config):
 
     if len(args) is 0:
         yield from client.send_message(message.channel,
