@@ -2,6 +2,7 @@ import asyncio as asyncio
 import discord
 from discord import Game, Server, Member, Embed, Color
 import configparser, os
+import argparse   #, pickle, sys
 
 from commands import cmd_ping, cmd_wtb, cmd_wts, cmd_market, cmd_help, cmd_clear
 
@@ -15,12 +16,12 @@ class DiscordOrderbookBot(object):
         "clear": cmd_clear
     }
 
-    def __init__(self):
+    def __init__(self, config_file = 'bot.conf'):
         self.client = discord.Client()
         self.client.on_ready = self.on_ready
         self.client.on_message = self.on_message
         self.config = configparser.ConfigParser()
-        self.config.read('bot.conf')
+        self.config.read(config_file)
 
     def run(self):
         if not 'token' in self.config['secrets'] or not self.config['secrets']['token']:
@@ -61,8 +62,21 @@ class DiscordOrderbookBot(object):
                 #to send a message to the author directly: yield from client.send_message(message.author, embed=Embed(color=Color.red(), description=("The command '%s' is not valid." % invoke)))
 
 def main():
-    app = DiscordOrderbookBot()
-    app.run()
+    parser = argparse.ArgumentParser(description='Discord Orderbook Bot.')
+    parser.add_argument('--config', default='bot.conf',
+                    help='path to the configuration file')
+    args = parser.parse_args()
+
+    app = DiscordOrderbookBot(config_file = args.config)
+
+    while True:
+        try:
+            app.run()
+        except KeyboardInterrupt:
+            print('Ctrl+C pressed, exiting.')
+            pass
+        # except 
+        #   print('Warning: Unhandled exception: ', pickle.dumps(sys.exc_info()[0]))    # be verbose about exceptions
 
 if __name__=='__main__':
     main()
