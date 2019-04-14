@@ -16,8 +16,11 @@ Some supervisor or cron helper could be needed to restart the bot should it cras
 
 ## History
 
-01/02/2019 - Bismuth version Public release
+14/04/2019 - First Veles Core fork
+- added support for standard ini-style config file
+- refactored main script into class for better OOP
 
+01/02/2019 - Bismuth version Public release
 - removes some hardcoded Nyzo strings
 - limit commands to specific channels only
 - add WTS total and WTB Total
