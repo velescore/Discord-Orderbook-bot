@@ -15,11 +15,21 @@ currency2 = sats
 # Maximum number of orders per Discord user
 maxorders = 2
 
+# Set url to *V1* Coinmarketcap API for this coin
+# in order to use !price command
+cmc_api_url = 
+
 ## Bot-specific settings
 [bot]
 
 # Prefix that bot commands start with
 prefix = !
+
+# Name of the bot
+bot_name = Stallman
+
+# Short description of the bot
+bot_description = Veles Core OTC-Bot
 
 # A list of channels names or id's where the bot will accept commands. 
 # Add multiple values each on new line indented with at least one space,

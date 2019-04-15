@@ -22,7 +22,7 @@ def ex(args, message, client, invoke, sender, config):
         sendstr = "Cleared **" + sender[:-5] + "**'s orders."
 
         yield from client.send_message(message.channel, sendstr)
-        yield from cmd_market.ex(args, message, client, invoke, sender)
+        yield from cmd_market.ex(args, message, client, invoke, sender, config)
 
     else:
         yield from client.send_message(message.channel, STATICS.INVALIDCLEAR)

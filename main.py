@@ -4,7 +4,7 @@ from discord import Game, Server, Member, Embed, Color
 import configparser, os
 import argparse, sys
 
-from commands import cmd_ping, cmd_wtb, cmd_wts, cmd_market, cmd_help, cmd_clear
+from commands import cmd_ping, cmd_wtb, cmd_wts, cmd_market, cmd_help, cmd_clear, cmd_price
 
 class ConfigurationError(ValueError):
     '''raise this when there's a critical error with the configuration file'''
@@ -34,6 +34,10 @@ class DiscordOrderbookBot(object):
         self.client.on_ready = self.on_ready
         self.client.on_message = self.on_message
 
+        # Commands that are enabled according to the config
+        if 'cmc_api_url' in self.config['market'] and self.config['market']['cmc_api_url']:
+            self.commands['price'] = cmd_price
+
     def run(self):
         self.client.run(self.config['secrets']['token'])
 
@@ -57,8 +61,7 @@ class DiscordOrderbookBot(object):
                 return
             
             sender = str(message.author)
-            invoke = message.content[len(self.config['bot']['prefix']):].split(" ")[0]
-            invoke = invoke.lower()
+            invoke = message.content[len(self.config['bot']['prefix']):].split(" ")[0].lower()
             args = message.content.split(" ")[1:]
             print("INVOKE: %s\nARGS: %s" % (invoke, args.__str__()[1:-1].replace("'","")))
 
