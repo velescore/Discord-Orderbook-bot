@@ -2,9 +2,12 @@ import asyncio as asyncio
 import discord
 from discord import Game, Server, Member, Embed, Color
 import configparser, os
-import argparse   #, pickle, sys
+import argparse, sys
 
 from commands import cmd_ping, cmd_wtb, cmd_wts, cmd_market, cmd_help, cmd_clear
+
+class ConfigurationError(ValueError):
+    '''raise this when there's a critical error with the configuration file'''
 
 class DiscordOrderbookBot(object):
     commands = {
@@ -17,17 +20,21 @@ class DiscordOrderbookBot(object):
     }
 
     def __init__(self, config_file = 'bot.conf'):
-        self.client = discord.Client()
-        self.client.on_ready = self.on_ready
-        self.client.on_message = self.on_message
+        if not os.path.isfile(config_file):
+            raise ConfigurationError('Configuration file not found: {}\n'
+                + 'See "bot.conf.example" for a defaut configuration.'.format(os.path.abspath(config_file)))
+
         self.config = configparser.ConfigParser()
         self.config.read(config_file)
 
-    def run(self):
         if not 'token' in self.config['secrets'] or not self.config['secrets']['token']:
-            print('DiscordOrderbookBot: Value for "token" configuration option not found, please edit your bot.conf')
-            return
+            raise ConfigurationError('Value for "token" configuration option not found, please edit your bot.conf')
 
+        self.client = discord.Client()
+        self.client.on_ready = self.on_ready
+        self.client.on_message = self.on_message
+
+    def run(self):
         self.client.run(self.config['secrets']['token'])
 
     @asyncio.coroutine
@@ -66,17 +73,13 @@ def main():
     parser.add_argument('--config', default='bot.conf',
                     help='path to the configuration file')
     args = parser.parse_args()
-
-    app = DiscordOrderbookBot(config_file = args.config)
-
-    while True:
-        try:
-            app.run()
-        except KeyboardInterrupt:
-            print('Ctrl+C pressed, exiting.')
-            pass
-        # except 
-        #   print('Warning: Unhandled exception: ', pickle.dumps(sys.exc_info()[0]))    # be verbose about exceptions
+    
+    try:
+        app = DiscordOrderbookBot(config_file = args.config)
+        app.run()
+    except ConfigurationError as err:
+        print("DiscordOrderbookBot: Error: {}".format(err.args[0]))
+        sys.exit(1)
 
 if __name__=='__main__':
     main()
