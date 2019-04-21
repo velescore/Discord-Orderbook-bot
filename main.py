@@ -71,8 +71,7 @@ class DiscordOrderbookBot(object):
 
             # Allow bot masters to send a command on behalf of other user using "delegate" command
             # using syntax    !delegate username command args   (when ! is prefix)
-            print(sender)
-            if invoke == 'delegate' and sender in self.config['bot']['bot_masters'].split('\n'):
+            if invoke == 'delegate' and 'bot_masters' in self.config['bot'] and sender in self.config['bot']['bot_masters'].split('\n'):
                 sender = args.pop(0)
                 invoke = args.pop(0)
 

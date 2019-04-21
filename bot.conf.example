@@ -25,8 +25,12 @@ cmc_api_url =
 # Prefix that bot commands start with
 prefix = !
 
+# Commands that are supported also without prefix
+allow_no_prefix = wtb
+	wts
+
 # Name of the bot
-bot_name = Stallman
+bot_name = Mudge
 
 # Short description of the bot
 bot_description = Veles Core OTC-Bot
@@ -38,6 +42,16 @@ bot_description = Veles Core OTC-Bot
 #     three
 #auth_channels = otc
 auth_channels = 
+
+# A list of discord accounts that are allowed to control privileged 
+# functionality of the bot.
+# Currently supported privileged commands: 
+#  !delegate ACCOUNT#ID COMMAND ARGS	# Runs COMMAND as user ACCOUNT#ID
+# Add multiple values each on new indented line,
+# eg. bot_masters = AltcoinBaggins#6959
+#	mdfkbtc#7980
+#	virtuado#5969
+bot_masters = 
 
 ## Authentication tokens
 [secrets]
