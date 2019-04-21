@@ -63,11 +63,22 @@ class DiscordOrderbookBot(object):
                     ): 
                 print('Unsupported channel: %s (%i)'.format(message.channel.name, message.channel.id))
                 return
-            
+
             sender = str(message.author)
             invoke = message.content[len(self.config['bot']['prefix']):].split(" ")[0].lower()
             args = message.content.split(" ")[1:]
             print("INVOKE: %s\nARGS: %s" % (invoke, args.__str__()[1:-1].replace("'","")))
+
+            # Allow bot masters to send a command on behalf of other user using "delegate" command
+            # using syntax    !delegate username command args   (when ! is prefix)
+            print(sender)
+            if invoke == 'delegate' and sender in self.config['bot']['bot_masters'].split('\n'):
+                sender = args.pop(0)
+                invoke = args.pop(0)
+
+                # Be more robust and allow delegating commands both with or without prefix
+                if invoke.startswith(self.config['bot']['prefix']):
+                    invoke = invoke[len(self.config['bot']['prefix']):]
 
             if self.commands.__contains__(invoke):
                 yield from self.commands.get(invoke).ex(args, message, self.client, invoke, sender, self.config)
