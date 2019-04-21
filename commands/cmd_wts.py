@@ -62,14 +62,14 @@ def ex(args, message, client, invoke, sender, config):
                     yield from client.send_message(message.channel, sendstr)
                 else:
                     yield from client.send_message(message.channel,
-                            embed=Embed(color=Color.red(), description=(STATICS.HELPER.format(
+                            embed=Embed(color=Color.red(), description=(STATICS.HELP_WTS.format(
                                 currency = config['market']['currency'],
                                 currency2 = config['market']['currency2']
                                 ))))
 
             else:
                 yield from client.send_message(message.channel,
-                        embed=Embed(color=Color.red(), description=(STATICS.HELPER.format(
+                        embed=Embed(color=Color.red(), description=(STATICS.HELP_WTS.format(
                             currency = config['market']['currency'],
                             currency2 = config['market']['currency2']
                             ))))
@@ -79,4 +79,6 @@ def ex(args, message, client, invoke, sender, config):
                     color=Color.red(), 
                     description=(STATICS.INMAX.format(maxorders = int(config['market']['maxorders'])))))
     else:
-        yield from client.send_message(message.channel, embed=Embed(color=Color.red(), description=(STATICS.HELPER)))
+        yield from client.send_message(message.channel, embed=Embed(color=Color.red(), description=(STATICS.HELP_WTS.format(
+                currency = config['market']['currency'],
+                currency2 = config['market']['currency2']))))

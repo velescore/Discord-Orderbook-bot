@@ -62,15 +62,21 @@ def ex(args, message, client, invoke, sender, config):
                     yield from client.send_message(message.channel, sendstr)
                 else:
                     yield from client.send_message(message.channel,
-                                                   embed=Embed(color=Color.red(), description=(STATICS.HELPER)))
+                            embed=Embed(color=Color.red(), description=(STATICS.HELP_WTB.format(
+                                currency = config['market']['currency'],
+                                currency2 = config['market']['currency2']))))
 
             else:
                 yield from client.send_message(message.channel,
-                                               embed=Embed(color=Color.red(), description=(STATICS.HELPER)))
+                        embed=Embed(color=Color.red(), description=(STATICS.HELP_WTB.format(
+                            currency = config['market']['currency'],
+                            currency2 = config['market']['currency2']))))
 
         elif count >= int(config['market']['maxorders']):
             yield from client.send_message(message.channel, embed=Embed(
                     color=Color.red(), 
                     description=(STATICS.INMAX.format(maxorders = int(config['market']['maxorders'])))))
     else:
-        yield from client.send_message(message.channel, embed=Embed(color=Color.red(), description=(STATICS.HELPER)))
+        yield from client.send_message(message.channel, embed=Embed(color=Color.red(), description=(STATICS.HELP_WTB.format(
+                currency = config['market']['currency'],
+                currency2 = config['market']['currency2']))))
