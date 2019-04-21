@@ -35,6 +35,9 @@ bot_name = Mudge
 # Short description of the bot
 bot_description = Veles Core OTC-Bot
 
+# Name of game in bot's presence status message, shown as eg. "Playing Mesh"
+presence_game = Mesh
+
 # A list of channels names or id's where the bot will accept commands. 
 # Add multiple values each on new line indented with at least one space,
 # eg. auth_channels = one

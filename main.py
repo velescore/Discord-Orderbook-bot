@@ -46,7 +46,9 @@ class DiscordOrderbookBot(object):
         print("Bot is logged in succesfully. Running on servers: \n")
         for s in self.client.servers:
             print(" - %s (%s)" % (s.name, s.id))
-        yield from self.client.change_presence(game=Game(name="Mesh"))
+
+        if 'presence_game' in self.config['bot']:
+            yield from self.client.change_presence(game=Game(name=self.config['bot']['presence_game']))
 
     @asyncio.coroutine
     def on_message(self, message):
