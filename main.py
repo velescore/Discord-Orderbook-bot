@@ -50,7 +50,11 @@ class DiscordOrderbookBot(object):
 
     @asyncio.coroutine
     def on_message(self, message):
-        # print(message.content + " - " + message.author.name)
+        # Allow some special commands also without prefix
+        if ('allow_no_prefix' in self.config['bot']
+                and message.content.split(" ")[0].lower() in self.config['bot']['allow_no_prefix'].split('\n')):
+            message.content = self.config['bot']['prefix'] + message.content;
+
         if message.content.startswith(self.config['bot']['prefix']):
             # support channel ids and channel names as well (and long line format as for PEP8)
             if (message.server and 'auth_channels' in self.config['bot']     # when commented out in config, listen on all channels
